@@ -1,0 +1,628 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Very Less Time | Placement Hub</title>
+<style>
+:root {
+  --bg:#131c2e;
+  --panel:#05214a;
+  --panel2:#0650c0;
+  --text:#eef4ff;
+  --muted:#91a1b8;
+  --accent:#3f94b9;
+  --green:#59b593;
+  --border:#29394f;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+.layout { display:flex; min-height:100vh; }
+.sidebar {
+  width:245px;
+  background:#101a2a;
+  border-right:1px solid var(--border);
+  padding:24px 15px;
+  flex-shrink:0;
+}
+.logo { font-size:21px; font-weight:bold; margin-bottom:7px; }
+.logo span { color:var(--accent); }
+.tagline { color:var(--muted); font-size:12px; margin-bottom:30px; }
+.nav-title {
+  color:var(--muted);
+  font-size:11px;
+  letter-spacing:1px;
+  margin:22px 10px 9px;
+}
+.nav button {
+  display:block;
+  width:100%;
+  padding:12px;
+  margin:4px 0;
+  border:0;
+  border-radius:8px;
+  background:transparent;
+  color:#bdcbe0;
+  text-align:left;
+  cursor:pointer;
+  font-size:14px;
+}
+.nav button:hover,.nav button.active {
+  background:var(--panel2);
+  color:var(--accent);
+}
+main { flex:1; min-width:0; padding:30px; }
+.topbar {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:28px;
+}
+h1 { font-size:25px; margin:0 0 8px; }
+h2 { font-size:18px; margin:0 0 16px; }
+p { color:var(--muted); line-height:1.6; }
+.date { color:var(--muted); font-size:13px; }
+.card {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:20px;
+  margin-bottom:18px;
+}
+.grid {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+  margin-bottom:20px;
+}
+.stat { font-size:27px; font-weight:bold; margin-top:12px; }
+.stat-label { color:var(--muted); font-size:13px; }
+.accent { color:var(--accent); }
+.green { color:var(--green); }
+.progress {
+  height:8px;
+  border-radius:20px;
+  background:#26364c;
+  overflow:hidden;
+  margin:12px 0;
+}
+.progress div {
+  height:100%;
+  background:var(--accent);
+  border-radius:20px;
+  transition:width .2s;
+}
+button,.btn {
+  background:var(--accent);
+  color:#071522;
+  font-weight:bold;
+  border:0;
+  border-radius:7px;
+  padding:10px 14px;
+  cursor:pointer;
+}
+button.secondary {
+  background:var(--panel2);
+  color:var(--text);
+  border:1px solid var(--border);
+}
+input,select {
+  background:#0e1929;
+  border:1px solid var(--border);
+  border-radius:7px;
+  padding:11px;
+  color:var(--text);
+  width:100%;
+  margin:6px 0 12px;
+}
+label { color:#c7d4e7; font-size:13px; }
+.form-row {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.item {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 0;
+  border-bottom:1px solid var(--border);
+}
+.item:last-child { border-bottom:0; }
+.item input[type=checkbox] { width:17px; margin:0; accent-color:var(--green); }
+.item span { flex:1; font-size:14px; }
+.done { color:var(--muted); text-decoration:line-through; }
+.pill {
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  background:#18384b;
+  color:#7dd3fc;
+  font-size:11px;
+}
+.entry {
+  background:#0f1a2a;
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:12px;
+  margin:9px 0;
+}
+.entry strong { display:block; margin-bottom:5px; }
+.entry small { color:var(--muted); }
+.empty { color:var(--muted); font-size:14px; padding:12px 0; }
+footer { color:var(--muted); font-size:12px; margin-top:30px; }
+@media(max-width:850px) {
+  .layout { display:block; }
+  .sidebar { width:100%; padding:15px; }
+  .nav { display:flex; overflow-x:auto; gap:5px; }
+  .nav button { min-width:max-content; width:auto; }
+  .nav-title,.tagline { display:none; }
+  .logo { margin-bottom:12px; }
+  main { padding:18px; }
+  .grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media(max-width:480px) {
+  .grid { grid-template-columns:1fr 1fr; }
+  .form-row { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar">
+  <div class="logo">VERY LESS <span>TIME.</span></div>
+  <div class="tagline">YOUR PERSONAL PLACEMENT HUB</div>
+  <div class="nav-title">WORKSPACE</div>
+  <nav class="nav" id="navigation">
+    <button class="active" data-page="dashboard">▦ Dashboard</button>
+    <button data-page="roadmap">◷ 24-Week Roadmap</button>
+    <button data-page="dsa">⌘ DSA Tracker</button>
+    <button data-page="skills">◇ Skills</button>
+    <button data-page="aptitude">▤ Aptitude</button>
+    <button data-page="projects">▣ Projects</button>
+    <button data-page="interview">◎ Interviews</button>
+    <button data-page="resume">✓ Resume</button>
+  </nav>
+  <div class="nav-title">YOUR GOAL</div>
+  <div class="card">
+    <div class="stat-label">Placement countdown</div>
+    <div class="stat accent">24 weeks</div>
+    <small class="date">One step at a time.</small>
+  </div>
+</aside>
+
+<main>
+  <div class="topbar">
+    <div>
+      <h1 id="pageTitle">Welcome back, Future Engineer!</h1>
+      <div class="date" id="today"></div>
+    </div>
+    <span class="pill">PLACEMENT 2027</span>
+  </div>
+  <div id="content"></div>
+  <footer>VERY LESS TIME · Your progress is saved in this browser.</footer>
+</main>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const KEY = "veryLessTimePlacementV1";
+
+const defaultData = {
+  tasks: [
+    "Study Python fundamentals",
+    "Solve two DSA problems",
+    "Practice aptitude questions",
+    "Practice English speaking",
+    "Revise today's concepts"
+  ],
+  roadmap: [
+    "Python basics, conditions, loops and functions",
+    "Lists, strings, dictionaries and sets",
+    "Arrays, strings and time complexity",
+    "Searching, sorting and recursion basics",
+    "Two pointers and sliding window",
+    "Hashing and frequency counting",
+    "Binary search and sorting revision",
+    "Recursion and backtracking basics",
+    "Linked lists",
+    "Stacks and queues",
+    "Trees and binary search trees",
+    "Heaps, greedy and graph basics",
+    "HTML, CSS and JavaScript",
+    "React fundamentals",
+    "Python FastAPI and REST APIs",
+    "SQL, Git and project deployment",
+    "DBMS and normalization",
+    "Operating systems",
+    "Computer networks",
+    "NumPy, Pandas and ML fundamentals",
+    "DSA revision: arrays, strings and hashing",
+    "DSA revision: trees, stacks and queues",
+    "Aptitude and technical interviews",
+    "Mock placements and resume refinement"
+  ],
+  skills: [
+    "Python programming","DSA and problem solving","SQL and DBMS",
+    "Object-oriented programming","Operating systems",
+    "Computer networks","HTML and CSS","JavaScript",
+    "React","Python FastAPI","Git and GitHub",
+    "Statistics and probability","Machine learning",
+    "Generative AI fundamentals","Communication skills"
+  ],
+  projects: [
+    {name:"Placement Preparation Tracker",steps:[
+      "Plan the features","Build the frontend","Create the backend",
+      "Connect the database","Test the application","Deploy the project"
+    ]},
+    {name:"Portfolio Website",steps:[
+      "Design the layout","Build the frontend","Add project sections",
+      "Add contact form","Test the website","Deploy the website"
+    ]},
+  ],
+  interview: [
+    "Prepare self introduction","Explain Python concepts",
+    "Explain OOP concepts","Practice SQL interview questions",
+    "Revise OS, DBMS and CN","Explain Project 1",
+    "Explain Project 2","Practice HR questions",
+    "Complete a mock technical interview"
+  ],
+  resume: [
+    "Create a one-page resume","Add technical skills",
+    "Add project descriptions","Add GitHub profile",
+    "Update LinkedIn profile","Proofread resume",
+    "Prepare a 2-minute project explanation"
+  ],
+  problems: [],
+  aptitude: [],
+  checks: {},
+  roadmapDone: {},
+  skillDone: {},
+  projectDone: {},
+  interviewDone: {},
+  resumeDone: {}
+};
+
+
+let data;
+
+try {
+  const saved = JSON.parse(localStorage.getItem(KEY));
+
+  data = saved
+    ? {...defaultData, ...saved}
+    : structuredClone(defaultData);
+
+  // Keep only the two projects selected by you
+  const oldProjects = Array.isArray(saved?.projects)
+    ? saved.projects
+    : [];
+
+  const oldProjectDone = saved?.projectDone || {};
+
+  data.projects = structuredClone(defaultData.projects);
+  data.projectDone = {};
+
+  // Preserve completed tasks for these two projects
+  data.projects.forEach((project, newIndex) => {
+    const oldIndex = oldProjects.findIndex(
+      oldProject => oldProject.name === project.name
+    );
+
+    if (oldIndex === -1) return;
+
+    project.steps.forEach((step, newStepIndex) => {
+      const oldStepIndex =
+        oldProjects[oldIndex].steps?.indexOf(step) ?? -1;
+
+      if (
+        oldStepIndex !== -1 &&
+        oldProjectDone[`project_${oldIndex}_${oldStepIndex}`]
+      ) {
+        data.projectDone[`project_${newIndex}_${newStepIndex}`] = true;
+      }
+    });
+  });
+
+  // Save the corrected project list permanently
+  localStorage.setItem(KEY, JSON.stringify(data));
+
+} catch(error) {
+  data = structuredClone(defaultData);
+}
+
+
+function save() {
+  localStorage.setItem(KEY,JSON.stringify(data));
+  renderStats();
+}
+
+function countDone(obj) {
+  return Object.values(obj).filter(Boolean).length;
+}
+
+function allChecklistCount() {
+  return Object.values(data.checks).filter(Boolean).length;
+}
+
+function renderStats() {
+  const total = data.tasks.length + data.roadmap.length +
+    data.skills.length + data.interview.length + data.resume.length +
+    data.projects.reduce((n,p)=>n+p.steps.length,0);
+  const done = allChecklistCount() +
+    countDone(data.roadmapDone) + countDone(data.skillDone) +
+    countDone(data.interviewDone) + countDone(data.resumeDone) +
+    countDone(data.projectDone);
+  const progress = total ? Math.round(done/total*100) : 0;
+  const el = $("overallProgress");
+  if(el) el.textContent = progress + "%";
+  const bar = $("overallBar");
+  if(bar) bar.style.width = progress + "%";
+}
+
+function checklist(items,store,category) {
+  return items.map((item,i)=>{
+    const key = category + "_" + i;
+    const checked = !!store[key];
+    return `<div class="item">
+      <input type="checkbox" ${checked?"checked":""}
+      onchange="toggle('${category}','${key}',this.checked)">
+      <span class="${checked?"done":""}">${item}</span>
+    </div>`;
+  }).join("");
+}
+
+function toggle(category,key,value) {
+  const stores = {
+    task:data.checks, roadmap:data.roadmapDone, skill:data.skillDone,
+    interview:data.interviewDone, resume:data.resumeDone,
+    project:data.projectDone
+  };
+  stores[category][key] = value;
+  save();
+  render();
+}
+
+function dashboard() {
+  return `
+  <div class="grid">
+    <div class="card"><div class="stat-label">DSA problems solved</div>
+      <div class="stat accent">${data.problems.filter(p=>p.solved).length}</div>
+    </div>
+    <div class="card"><div class="stat-label">Skills completed</div>
+      <div class="stat">${countDone(data.skillDone)}/${data.skills.length}</div>
+    </div>
+    <div class="card"><div class="stat-label">Projects</div>
+      <div class="stat">${data.projects.length}</div>
+    </div>
+    <div class="card"><div class="stat-label">Aptitude tests</div>
+      <div class="stat">${data.aptitude.length}</div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Overall preparation progress</h2>
+    <div class="stat accent" id="overallProgress">0%</div>
+    <div class="progress"><div id="overallBar"></div></div>
+    <p>Keep showing up. Small improvements create big results.</p>
+  </div>
+  <div class="card">
+    <h2>Today's checklist</h2>
+    ${checklist(data.tasks,data.checks,"task")}
+  </div>
+  <div class="card">
+    <h2>Your current mission</h2>
+    <p>Build your programming foundation, solve DSA problems and prepare for campus placements.</p>
+    <span class="pill">Python · DSA · Aptitude · Projects</span>
+  </div>`;
+}
+
+function roadmap() {
+  return `<div class="card">
+    <h2>Your 24-week learning roadmap</h2>
+    <p>Tick a week after completing its learning goals.</p>
+    ${data.roadmap.map((topic,i)=>`
+      <div class="item">
+        <input type="checkbox" ${data.roadmapDone["roadmap_"+i]?"checked":""}
+        onchange="toggle('roadmap','roadmap_${i}',this.checked)">
+        <span class="${data.roadmapDone["roadmap_"+i]?"done":""}">
+          <b>Week ${i+1}</b> — ${topic}
+        </span>
+      </div>`).join("")}
+  </div>`;
+}
+
+function dsa() {
+  return `<div class="card">
+    <h2>Add a coding problem</h2>
+    <form onsubmit="addProblem(event)">
+      <label>Problem name</label>
+      <input id="problemName" placeholder="Example: Two Sum" required>
+      <div class="form-row">
+        <div><label>Topic</label>
+          <select id="problemTopic">
+            <option>Arrays</option><option>Strings</option>
+            <option>Hashing</option><option>Searching</option>
+            <option>Sorting</option><option>Recursion</option>
+            <option>Linked Lists</option><option>Trees</option>
+            <option>Graphs</option><option>Dynamic Programming</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div><label>Difficulty</label>
+          <select id="problemDifficulty">
+            <option>Easy</option><option>Medium</option><option>Hard</option>
+          </select>
+        </div>
+      </div>
+      <button type="submit">+ Add problem</button>
+    </form>
+  </div>
+  <div class="card">
+    <h2>Your coding log (${data.problems.length} problems)</h2>
+    ${data.problems.length ? data.problems.map((p,i)=>`
+      <div class="entry">
+        <div class="item">
+          <input type="checkbox" ${p.solved?"checked":""}
+            onchange="markProblem(${i},this.checked)">
+          <span class="${p.solved?"done":""}">
+            <strong>${escapeHTML(p.name)}</strong>
+            <small>${escapeHTML(p.topic)} · ${escapeHTML(p.difficulty)}</small>
+          </span>
+          <button class="secondary" onclick="deleteProblem(${i})">Delete</button>
+        </div>
+      </div>`).join("") : `<div class="empty">No problems yet. Add your first problem above!</div>`}
+  </div>`;
+}
+
+function skills() {
+  return `<div class="card">
+    <h2>Technical and professional skills</h2>
+    <p>Tick a skill when you can use it confidently, not just after watching a tutorial.</p>
+    ${checklist(data.skills,data.skillDone,"skill")}
+  </div>`;
+}
+
+function aptitude() {
+  return `<div class="card">
+    <h2>Record an aptitude practice session</h2>
+    <form onsubmit="addAptitude(event)">
+      <label>Topic</label>
+      <input id="aptTopic" placeholder="Example: Percentages" required>
+      <div class="form-row">
+        <div><label>Questions attempted</label><input id="aptAttempt" type="number" min="0" required></div>
+        <div><label>Correct answers</label><input id="aptCorrect" type="number" min="0" required></div>
+      </div>
+      <button type="submit">Save practice</button>
+    </form>
+  </div>
+  <div class="card">
+    <h2>Practice history</h2>
+    ${data.aptitude.length ? data.aptitude.map(a=>`
+      <div class="entry"><strong>${escapeHTML(a.topic)}</strong>
+      <small>${a.correct} correct out of ${a.attempted} · ${a.date}</small></div>
+    `).join("") : `<div class="empty">Your practice history will appear here.</div>`}
+  </div>`;
+}
+
+function projects() {
+  return data.projects.map((p,i)=>`
+    <div class="card">
+      <h2>${escapeHTML(p.name)}</h2>
+      ${p.steps.map((s,j)=>{
+        const key = "project_"+i+"_"+j;
+        const checked = !!data.projectDone[key];
+        return `<div class="item">
+          <input type="checkbox" ${checked?"checked":""}
+          onchange="toggle('project','${key}',this.checked)">
+          <span class="${checked?"done":""}">${escapeHTML(s)}</span>
+        </div>`;
+      }).join("")}
+    </div>`).join("");
+}
+
+function interviews() {
+  return `<div class="card">
+    <h2>Interview preparation checklist</h2>
+    ${checklist(data.interview,data.interviewDone,"interview")}
+  </div>`;
+}
+
+function resume() {
+  return `<div class="card">
+    <h2>Resume and profile checklist</h2>
+    ${checklist(data.resume,data.resumeDone,"resume")}
+  </div>`;
+}
+
+const pages = {
+  dashboard, roadmap, dsa, skills, aptitude,
+  projects, interview:interviews, resume
+};
+const titles = {
+  dashboard:"Welcome back, Future Engineer!",
+  roadmap:"Your 24-Week Roadmap",
+  dsa:"DSA Problem Tracker",
+  skills:"Your Skills",
+  aptitude:"Aptitude Practice",
+  projects:"Project Development",
+  interview:"Interview Preparation",
+  resume:"Resume & Profile"
+};
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",
+    '"':"&quot;","'":"&#39;"
+  })[c]);
+}
+
+function render(page = currentPage) {
+  currentPage = page;
+  $("pageTitle").textContent = titles[page];
+  $("content").innerHTML = pages[page]();
+  document.querySelectorAll(".nav button").forEach(btn=>{
+    btn.classList.toggle("active",btn.dataset.page===page);
+  });
+  renderStats();
+}
+
+let currentPage = "dashboard";
+
+$("navigation").addEventListener("click",e=>{
+  const btn = e.target.closest("button[data-page]");
+  if(btn) render(btn.dataset.page);
+});
+
+function addProblem(e) {
+  e.preventDefault();
+  data.problems.push({
+    name:$("problemName").value.trim(),
+    topic:$("problemTopic").value,
+    difficulty:$("problemDifficulty").value,
+    solved:false
+  });
+  save(); render();
+}
+
+function markProblem(i,value) {
+  data.problems[i].solved=value;
+  save(); render();
+}
+
+function deleteProblem(i) {
+  if(confirm("Delete this problem?")) {
+    data.problems.splice(i,1);
+    save(); render();
+  }
+}
+
+function addAptitude(e) {
+  e.preventDefault();
+  const attempted = Number($("aptAttempt").value);
+  const correct = Number($("aptCorrect").value);
+  if(correct>attempted) {
+    alert("Correct answers cannot exceed attempted questions.");
+    return;
+  }
+  data.aptitude.unshift({
+    topic:$("aptTopic").value.trim(),
+    attempted,correct,
+    date:new Date().toLocaleDateString()
+  });
+  save(); render();
+}
+
+$("today").textContent = new Date().toLocaleDateString(
+  undefined,{weekday:"long",year:"numeric",month:"long",day:"numeric"}
+);
+render();
+</script>
+</body>
+</html>
